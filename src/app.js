@@ -2,7 +2,9 @@ require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
-const aws = require('./aws');
+
+const { validateFields } = require('./validation');
+const { sendMessage } = require('./aws');
 
 const app = express();
 
@@ -24,15 +26,16 @@ app.post('/api/v1/folhaponto', async (req, res) => {
       dateReference,
     };
 
-    if (!name || !email || !password || !dateReference) {
+    try {
+      validateFields(messageBody);
+    } catch (validationError) {
       return res.json({
         success: false,
-        message:
-          'Todos os campos name, email, password e dateReference são obrigatórios.',
+        message: validationError.message,
       });
     }
 
-    await aws.sendMessage(messageBody);
+    await sendMessage(messageBody);
 
     return res.json({
       success: true,
