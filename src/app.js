@@ -40,7 +40,7 @@ app.post('/api/v1/folhaponto', async (req, res) => {
     return res.json({
       success: true,
       message:
-        'Solicitação recebida. Assim que a planilha for gerada, você irá recebe-la em seu email.',
+        'Solicitação recebida. Assim que a planilha for gerada, você irá recebê-la via email.',
     });
   } catch (err) {
     console.error(err);
