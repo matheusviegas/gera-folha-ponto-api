@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  return res.json({ operational: true, version: '1' });
+});
+
 app.post('/api/v1/folhaponto', async (req, res) => {
   try {
     const { name, email, password, dateReference } = req.body;
@@ -36,6 +40,7 @@ app.post('/api/v1/folhaponto', async (req, res) => {
         'Solicitação recebida. Assim que a planilha for gerada, você irá recebe-la em seu email.',
     });
   } catch (err) {
+    console.error(err);
     return res.json({
       success: false,
       message: 'Ocorreu um erro ao processar sua solicitação.',
